@@ -38,14 +38,28 @@
     }
 
     function hslToCss( h, s, l, a ){
-        var rgb = hslToRgb(h,s,l);
+        var rgb = hslToRgb(h,s,l).map( Math.floor );
         rgb.push(a);
         return "rgba("+ rgb.join(',') + ')';
+    }
+
+    function loadImage( path ){
+        return new Promise(function(resolve, reject){
+            var tmpImage = new Image();
+            tmpImage.src = path;
+            tmpImage.onload = function _loadedImage() {
+                resolve(tmpImage);
+            };
+            tmpImage.onerror = function _erroredImage() {
+                reject('unable to load image ' + path);
+            }
+        });
     }
 
     window.slides = window.slides || {};
     window.slides.utils = window.slides.utils || {
         hslToRgb: hslToRgb,
-        hslToCss: hslToCss
+        hslToCss: hslToCss,
+        loadImage: loadImage
     };
 })(window);

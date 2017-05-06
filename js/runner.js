@@ -9,7 +9,7 @@
 	window.slides = window.slides || {};
 
 	var kColorCycleTime = 5000;
-	var kImageDwellTime = 1000;
+	var kImageDwellTime = 200;
 
 	function SlideRunner( slides, $canvas, $textContainer ){
 		this.startTime = new Date();
@@ -48,7 +48,28 @@
 		var ctx = this.context;
 	
 		ctx.globalCompositeOperation = 'source-over';
-		ctx.drawImage( this.images[this.currImageIndex],0,0,ctx.canvas.width,ctx.canvas.height);		
+		ctx.fillStyle = "#000";
+		ctx.fillRect(0,0, ctx.canvas.width, ctx.canvas.height);
+		var img = this.images[this.currImageIndex];
+		var ih = img.height;
+		var iw = img.width;
+		var ch = ctx.canvas.height;
+		var cw = ctx.canvas.width;
+		var ar = iw/ih;
+		var sx = iw / cw;
+		var sy = ih / ch;
+
+		if (sy <= 1.0 && sx <= 1.0 ) {
+			ctx.drawImage( img,0,0,iw,ih);
+		} else {
+			if (ar > 1){ // width  > height
+				ctx.drawImage( img,0,0,img.width/sx,img.height/sx);
+			} else {
+				ctx.drawImage( img,0,0,img.width/sy,img.height/sy);
+			}
+		}		
+		//ctx.drawImage( this.images[this.currImageIndex],0,0,ctx.canvas.width,ctx.canvas.height);		
+		
 
 		ctx.globalCompositeOperation = 'overlay';
 		ctx.fillStyle = primaryColor;

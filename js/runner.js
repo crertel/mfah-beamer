@@ -59,17 +59,25 @@
 		var sx = iw / cw;
 		var sy = ih / ch;
 
+		var bx = cw /2;
+		var by = ch /2;
+
+
 		if (sy <= 1.0 && sx <= 1.0 ) {
-			ctx.drawImage( img,0,0,iw,ih);
+			bx -= iw/2;
+			by -= ih/2;
+			ctx.drawImage( img,bx,by,iw,ih);
 		} else {
 			if (ar > 1){ // width  > height
-				ctx.drawImage( img,0,0,img.width/sx,img.height/sx);
+				bx -= (iw/2)/sx;
+				by -= (ih/2)/sx;
+				ctx.drawImage( img,bx,by,img.width/sx,img.height/sx);
 			} else {
-				ctx.drawImage( img,0,0,img.width/sy,img.height/sy);
+				bx -= (iw/2)/sy;
+				by -= (ih/2)/sy;
+				ctx.drawImage( img,bx,by,img.width/sy,img.height/sy);
 			}
 		}		
-		//ctx.drawImage( this.images[this.currImageIndex],0,0,ctx.canvas.width,ctx.canvas.height);		
-		
 
 		ctx.globalCompositeOperation = 'overlay';
 		ctx.fillStyle = primaryColor;

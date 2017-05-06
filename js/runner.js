@@ -8,8 +8,8 @@
 
 	window.slides = window.slides || {};
 
-	var kColorCycleTime = 5000;
-	var kImageDwellTime = 200;
+	var kColorCycleTime = 3000;
+	var kImageDwellTime = 30000;
 
 	function SlideRunner( slides, $canvas, $textContainer ){
 		this.startTime = new Date();
@@ -40,7 +40,6 @@
 		var dtImage = this.currTime - this.currImageTime;
 
 		var fracTime = dt / kColorCycleTime;
-		//var brightness = Math.sin(fracTime);
 		var brightness = 0.5;
 
 		var primaryColor = window.slides.utils.hslToCss( Math.sin(fracTime), 1, brightness, 1);
@@ -61,6 +60,9 @@
 
 		var bx = cw /2;
 		var by = ch /2;
+
+		this.$textContainer.innerHTML = '<h1>' + this.slides[this.currImageIndex].name + '</h1>'
+										+ '<h2 style="text-align:right">creator of ' + this.slides[this.currImageIndex].language + '</h2>';
 
 
 		if (sy <= 1.0 && sx <= 1.0 ) {
